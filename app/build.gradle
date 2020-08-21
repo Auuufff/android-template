@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+apply from: "$project.rootDir/dependencies.gradle"
+apply from: "$project.rootDir/tools/script-lint.gradle"
+apply from: "$project.rootDir/tools/script-ktlint.gradle"
+
+android {
+
+    compileSdkVersion config.targetSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.buildNumber
+        versionName "${config.versionMajor}.${config.buildNumber}"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {}
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+        freeCompilerArgs += [
+                "-Xopt-in=kotlin.Experimental",
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi",
+                "-Xopt-in=kotlin.ExperimentalStdlibApi",
+                "-Xopt-in=kotlin.time.ExperimentalTime",
+                "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi"
+        ]
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.core:core-ktx:$versions.androidx_core"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragment-ktx"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle_version"
+
+    implementation "androidx.fragment:fragment-ktx:$versions.fragment_ktx"
+
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.recyclerview:recyclerview:$versions.recycler_view"
+    implementation "ru.ldralighieri.corbind:corbind:$versions.corbind"
+    implementation "com.github.hadilq.liveevent:liveevent:$versions.live_event"
+
+    implementation "com.github.fondesa:kpermissions:$versions.kpermissions"
+    implementation "com.github.fondesa:kpermissions-coroutines:$versions.kpermissions"
+}

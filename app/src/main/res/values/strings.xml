@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Project base</string>
+    <string name="error_no_connection">Unable to connect with server. Please, check your internet connection.</string>
+</resources>
